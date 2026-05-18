@@ -1,32 +1,23 @@
-import { create } from "zustand";
+import  {create} from "zustand";
 
-interface Pokemon{
-    id: number;
-    name: string;
-    image: string;
-}
-
-interface PokemonStore {
-    pokemons: Pokemon[]; // array de pokemons
-    loading: boolean;
+interface PokemonState { //estado global do pokemon? 
     search: string;
     page: number;
-
-    setPokemons: (pokemon: Pokemon[]) => void;
-    setLoading: (loading: boolean) => void;
+    limit: number;
+    sortOrder: "asc" | "desc"; //sortorder é um metodo? asc e desc são parametros ou nomes?
     setSearch: (search: string) => void;
     setPage: (page: number) => void;
+    setLimit: (limit: number) => void;
+    setSortOrder: (order: "asc" | "desc") => void;
 }
 
-export const usePokemonStore = create<PokemonStore>((set) => ({
-    pokemons: [],
-    loading: false,
+export const usePokemonStore = create<PokemonState>((set) => ({
     search: "",
     page: 1,
-
-    setPokemons: (pokemons) => set({ pokemons }),
-    setLoading: (loading) => set({ loading }),
-    setSearch: (search) => set({ search }),
-    setPage: (page) => set({ page }),
+    limit:10,
+    sortOrder: "asc",
+    setSearch: (search) => set({ search,  page: 1}),
+    setPage: (page) => set({ page}),
+    setLimit: (limit) => set ({ limit, page: 1}),
+    setSortOrder: (sortOrder) => set({ sortOrder}),  
 }));
-
