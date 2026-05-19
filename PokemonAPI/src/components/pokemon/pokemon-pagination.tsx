@@ -23,6 +23,8 @@ export function PokemonPagination() {
             <SelectItem value="5">5</SelectItem>
             <SelectItem value="10">10</SelectItem>
             <SelectItem value="15">15</SelectItem>
+            <SelectItem value="20">20</SelectItem>
+            <SelectItem value="25">25</SelectItem>
           </SelectContent>
         </Select>
       </div>
@@ -34,7 +36,7 @@ export function PokemonPagination() {
           onClick={() => setPage(Math.max(page - 1, 1))} 
           disabled={page === 1}
         >
-          Anterior
+          Anterior  
         </Button>
         
         <span className="text-sm font-medium">
