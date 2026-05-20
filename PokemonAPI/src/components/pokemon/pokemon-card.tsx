@@ -4,7 +4,7 @@ interface PokemonCardProps {
   name: string;
   url: string;
 }
-
+  
 export function PokemonCard({ name, url }: PokemonCardProps) {
   
   return (
