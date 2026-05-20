@@ -87,7 +87,7 @@ export const usePokemon = () => {
         const data = await fetchAllPokemon();
         setAllPokemon(data);
       } catch (err: unknown) {
-        setError(err instanceof Error ? err.message : "Erro desconhecido"); //setError(err.message :
+        setError(err instanceof Error ? err.message : "Erro ao buscar dados na API"); //setError(err.message :
       } finally {
         setLoading(false);
       }

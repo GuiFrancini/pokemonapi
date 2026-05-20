@@ -25,4 +25,4 @@ catch (error) {
     // Trata o erro aqui ou repassa um erro amigável
     throw new Error("Não foi Possivel buscar dados na PokeAPI, verifique sua internet.", { cause: error});
   }
-};
+}; 
