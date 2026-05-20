@@ -31,7 +31,7 @@ export function PokemonGrid() {
   // Exibe Skeletons correspondentes ao limite por página configurado
   if (loading) {
     return (
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 p-4">
+      <div className="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-5 gap-5 p-5">
         {Array.from({ length: limit }).map((_, index) => (
           <PokemonSkeleton key={index} />
         ))}
