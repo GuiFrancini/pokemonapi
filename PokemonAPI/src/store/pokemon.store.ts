@@ -5,10 +5,12 @@ interface PokemonState { //estado global do pokemon?
     page: number;
     limit: number;
     sortOrder: "asc" | "desc"; //sortorder é um metodo? asc e desc são parametros ou nomes?
+    isSearching: boolean;
     setSearch: (search: string) => void;
     setPage: (page: number) => void;
     setLimit: (limit: number) => void;
     setSortOrder: (order: "asc" | "desc") => void;
+    setIsSearching: (state: boolean) => void;
 }
 
 export const usePokemonStore = create<PokemonState>((set) => ({
@@ -16,8 +18,10 @@ export const usePokemonStore = create<PokemonState>((set) => ({
     page: 1,
     limit:10,
     sortOrder: "asc",
-    setSearch: (search) => set({ search,  page: 1}),
-    setPage: (page) => set({ page}),
+    isSearching: false,
+    setSearch: (search) => set({ search,  page: 1, isSearching: false}),
+    setPage: (page) => set({ page }),
     setLimit: (limit) => set ({ limit, page: 1}),
     setSortOrder: (sortOrder) => set({ sortOrder}),  
+    setIsSearching: (isSearching) => set({ isSearching }),
 }));
