@@ -44,7 +44,6 @@ export function PokemonSearch() {
   );
 }*/
 
-// src/components/pokemon/pokemon-search.tsx
 import { useEffect, useState } from "react";
 import { usePokemonStore } from "@/store/pokemon.store";
 import { Input } from "@/components/ui/input";
@@ -57,11 +56,18 @@ export function PokemonSearch() {
   useEffect(() => {
     const handler = setTimeout(() => {
       setSearch(localSearch);
+      //setIsSearching(false);
     }, 300);
 
     return () => clearTimeout(handler);
-  }, [localSearch, setSearch]);
+  }, [localSearch, setSearch]); //setIsSearching
 
+
+  const handleInputChange = (value: string) => {
+    setLocalSearch(value); // 1. Muda o texto no input instantaneamente
+   //  setIsSearching(true);  // 2. Chama o Skeleton no EXATO momento que a tecla é pressionada
+  };
+  
   return (
     <div className="w-full max-w-5xl mx-auto px-4 pt-6 pb-2">
       {/* Linha de Controles Unificada */}
@@ -72,7 +78,7 @@ export function PokemonSearch() {
           <Input
             placeholder="Buscar por nome..."
             value={localSearch}
-            onChange={(e) => setLocalSearch(e.target.value)}
+            onChange={(e) => handleInputChange(e.target.value)}
             className="w-full h-10 bg-white border-slate-200 rounded-full shadow-sm focus-visible:ring-rose-500"
           />
         </div>
