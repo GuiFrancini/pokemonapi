@@ -8,7 +8,7 @@ export interface PokemonListResponse {
   results: NamedAPIResource[];
 }
 
-// Buscaremos uns 2000 Pokémon principais (Gerações 1 a 9) de uma vez para o filtro local
+
 export const fetchAllPokemon = async (): Promise<NamedAPIResource[]> => {
 
   try{
@@ -26,3 +26,33 @@ catch (error) {
     throw new Error("Não foi Possivel buscar dados na PokeAPI, verifique sua internet.", { cause: error});
   }
 }; 
+
+export const fetchPokemonDetails = async (name: string) => {
+  try {
+  const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`);
+  if (!response.ok) {
+    throw new Error("Erro ao buscar detalhes do Pokémon");
+  }
+  return response.json();
+} catch (error) {
+    console.error("Erro ao buscar detalhes do Pokémon:", error);
+    throw new Error("Não foi possível buscar detalhes do Pokémon.", { cause: error });
+}
+};
+
+
+export const fetchPokemonSpecies = async (name: string) => {
+  try {
+    const response = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${name}`);
+   
+    if (!response.ok) {
+      throw new Error(`Erro ao buscar espécie do Pokémon ${name}`);
+    } 
+    return await response.json();
+  }catch (error) {
+    console.error("erro ao buscar especie", error);
+    throw new Error("Não foi possível buscar a espécie do Pokémon.", { cause: error });
+
+  }
+    
+  };
