@@ -26,10 +26,10 @@ import { PokemonSkeleton } from "./pokemon-skeleton";
 
 export function PokemonGrid() {
   const { pokemonList, loading, error } = usePokemon();
-  const { limit } = usePokemonStore();
+  const { limit, isSearching } = usePokemonStore();
 
   // Exibe Skeletons correspondentes ao limite por página configurado
-  if (loading) {
+  if (loading || isSearching) {
     return (
       <div className="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-5 gap-5 p-5">
         {Array.from({ length: limit }).map((_, index) => (
@@ -39,21 +39,17 @@ export function PokemonGrid() {
     );
   }
 
-  if (error) {
-    return (
+  if (error) 
+    return
       <div className="text-center text-destructive font-medium py-12">
         Houve um erro ao carregar os Pokémon: {error}
-      </div>
-    );
-  }
-
-  if (pokemonList.length === 0) {
-    return (
+      </div>;
+  if (pokemonList.length === 0) 
+    return 
       <div className="text-center text-muted-foreground py-12">
         Nenhum Pokémon encontrado para esta busca.
-      </div>
-    );
-  }
+      </div>;
+  
 
   return (
     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 p-4 min-h-[400px]">
