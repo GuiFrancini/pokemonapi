@@ -72,12 +72,13 @@ import { fetchAllPokemon } from "../services/pokemon.api";
 import { usePokemonStore } from "../store/pokemon.store";
 
 export const usePokemon = () => {
-  const { search, page, limit, sortOrder } = usePokemonStore();
+  const { search, page, limit, sortOrder, } = usePokemonStore();//setIsSearching 
 
   // Mantemos apenas o estado do que vem de FORA (API)
   const [allPokemon, setAllPokemon] = useState<NamedAPIResource[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
 
   // 1. Único useEffect necessário: buscar dados da API externa
   useEffect(() => {
@@ -94,12 +95,16 @@ export const usePokemon = () => {
     };
     loadData();
   }, []);
+  
 
   // 2. FILTRO E ORDENAÇÃO: Calculado em tempo de execução com useMemo
   const filteredPokemon = useMemo(() => {
     let result = [...allPokemon];
 
+    
+    
     if (search.trim() !== "") {
+
       result = result.filter((pokemon) =>
         pokemon.name.toLowerCase().includes(search.toLowerCase())
       );
@@ -110,8 +115,12 @@ export const usePokemon = () => {
       return b.name.localeCompare(a.name);
     });
 
+   // setIsSearching(false);
+
     return result;
   }, [allPokemon, search, sortOrder]); // Só recalcula se um desses 3 mudar
+
+  
 
   // 3. PAGINAÇÃO: Também calculada dinamicamente com useMemo
   const paginatedPokemon = useMemo(() => {
