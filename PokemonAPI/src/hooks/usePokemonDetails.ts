@@ -1,46 +1,46 @@
+// src/hooks/usePokemonDetails.ts
 import { useState, useEffect, useRef } from "react";
 import { fetchPokemonDetails, fetchPokemonSpecies } from "../services/pokemon.api";
 
-// Defina interfaces adequadas
 interface PokemonDetails {
-  // adicione os campos que você usa
   id: number;
   name: string;
-  species: any; // idealmente tipar também
-  // ... outros campos
+  species: any; 
+  sprites: any;
+  height: number;
+  weight: number;
+  abilities: any[];
+  stats: any[];
 }
 
 export const usePokemonDetails = (name: string | undefined) => {
   const [data, setData] = useState<PokemonDetails | null>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<Error | null>(null); // guarde o erro
+  const [error, setError] = useState<Error | null>(null); 
   const abortControllerRef = useRef<AbortController>();
 
   useEffect(() => {
-    if (!name) {
-      setData(null);
-      setLoading(false);
-      setError(null);
-      return;
-    }
+    if (!name) return;
 
-    // Cancela requisição anterior se existir
     abortControllerRef.current?.abort();
     abortControllerRef.current = new AbortController();
-
-    let cancelled = false; // flag para evitar atualizações pós-desmontagem
+    let cancelled = false;
 
     const loadData = async () => {
       setLoading(true);
       setError(null);
       
       try {
-        const [details, species] = await Promise.all([
-          fetchPokemonDetails(name),
-          fetchPokemonSpecies(name)
-        ]);
+        // Busca os detalhes primeiro
+        const details = await fetchPokemonDetails(name);
 
-        // Só atualiza se ainda for relevante
+        // extrai o nome correto da espécie que a própria API retornou
+        // Ex: no Zygarde-50, o details.species.name será apenas "zygarde"
+        const correctSpeciesName = details.species.name;
+
+        // busca a espécie usando o nome  serto
+        const species = await fetchPokemonSpecies(correctSpeciesName);
+
         if (!cancelled) {
           setData({ ...details, species });
           setLoading(false);
@@ -55,7 +55,6 @@ export const usePokemonDetails = (name: string | undefined) => {
 
     loadData();
 
-    // Cleanup: marca como cancelado quando desmontar
     return () => {
       cancelled = true;
       abortControllerRef.current?.abort();
