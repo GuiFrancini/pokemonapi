@@ -4,19 +4,14 @@ import { usePokemon } from "@/hooks/use-pokemon";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-// Caso dê erro de import no select do shadcn, use a linha padrão:
-// import { Select as ShadSelect } from "@/components/ui/select";
-
 export function PokemonPagination() {
   const { page, setPage, } = usePokemonStore();
   const { totalPages } = usePokemon();
 
   return (
-    <div className="flex items-center justify-center gap-4 py-8 max-w-5xl mx-auto">
-     
-     
-     
-     <Button 
+    <div className="flex items-center justify-center gap-4 py-8 gap-4 py-8 w-full">
+         
+    <Button 
         variant="outline" 
         size="icon"
         onClick={() => setPage(Math.max(page - 1, 1))} 

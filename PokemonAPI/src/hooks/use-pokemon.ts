@@ -1,70 +1,3 @@
-/* import { useState, useEffect } from "react"; 
-import { fetchAllPokemon,} from "../services/pokemon.api";
-import type { NamedAPIResource } from "../services/pokemon.api";
-import { usePokemonStore } from "../store/pokemon.store";
-
-export const usePokemon =() => {
-  const { search, page, limit, sortOrder } = usePokemonStore();
-//qual a diferença entre { } e []?
-  const [allPokemon, setAllPokemon] = useState<NamedAPIResource[]>([]);
-  const [filteredPokemon, setFilteredPokemon] = useState<NamedAPIResource[]>([]);
-  const [paginatedPokemon, setPaginatedPokemon] = useState<NamedAPIResource[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-
- // api carregará todos os dados aqui
- useEffect(() => {
-  const loadData = async () => {
-    try {
-      setLoading (true);
-      const data = await fetchAllPokemon();
-      setAllPokemon(data);
-    } catch (err: any) {
-      setError(err.message || "Erro ao carregar os pokemons");
-    } finally {
-      setLoading(false);
-
-    
-    }
-    };
-    loadData();
-  }, []);
-
-  useEffect(() => {
-    let result = [...allPokemon];
-
-    if (search.trim() !== ""){
-      result = result.filter((pokemon) =>
-      pokemon.name.toLowerCase().includes(search.toLowerCase()));
-
-    }
-
-    result.sort((a, b) => {
-      if(sortOrder === "asc") return a.name. localeCompare(b.name);
-      return b.name.localeCompare(a.name);
-    });
-
-    setFilteredPokemon(result);
-  }, [allPokemon, search, sortOrder]);
-
-  //paginação
-  useEffect(() => {
-    const startIndex = (page -1)* limit;
-    const endIndex = startIndex + limit;
-    setPaginatedPokemon(filteredPokemon.slice(startIndex, endIndex));
-  }, [filteredPokemon, page, limit]);
-
-  const totalPages = Math.ceil(filteredPokemon.length / limit) || 1;
-
-  return{
-    pokemonList: paginatedPokemon,
-    loading,
-    error,
-    totalPages,
-    };
-  }; */
-
 // src/hooks/usePokemon.ts
 import { useState, useEffect, useMemo } from "react";
 import type { NamedAPIResource } from "../services/pokemon.api";
@@ -74,13 +7,13 @@ import { usePokemonStore } from "../store/pokemon.store";
 export const usePokemon = () => {
   const { search, page, limit, sortOrder, } = usePokemonStore();//setIsSearching 
 
-  // Mantemos apenas o estado do que vem de FORA (API)
+  // estados locais para carregamento , poke e erro
   const [allPokemon, setAllPokemon] = useState<NamedAPIResource[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
 
-  // 1. Único useEffect necessário: buscar dados da API externa
+  // buscar dados da api apenas uma vez quando o componente monta
   useEffect(() => {
     const loadData = async () => {
       try {
@@ -97,12 +30,12 @@ export const usePokemon = () => {
   }, []);
   
 
-  // 2. FILTRO E ORDENAÇÃO: Calculado em tempo de execução com useMemo
+  // filtro e ordenação usando o usememo pois ele deriva do estado original
+  //  e não precisa ser recalculado a cada renderização
+  //  apenas quando os dados ou os critérios de busca/ordenação mudarem
+
   const filteredPokemon = useMemo(() => {
     let result = [...allPokemon];
-
-    
-    
     if (search.trim() !== "") {
 
       result = result.filter((pokemon) =>
@@ -122,18 +55,18 @@ export const usePokemon = () => {
 
   
 
-  // 3. PAGINAÇÃO: Também calculada dinamicamente com useMemo
+  // paginação calculada dinamicamente com useMemo
   const paginatedPokemon = useMemo(() => {
     const startIndex = (page - 1) * limit;
     const endIndex = startIndex + limit;
     return filteredPokemon.slice(startIndex, endIndex);
   }, [filteredPokemon, page, limit]); // Só recalcula se a lista filtrada ou a página mudar
 
-  // Total de páginas calculado dinamicamente
+  // Total de paginas 
   const totalPages = Math.ceil(filteredPokemon.length / limit) || 1;
 
   return {
-    pokemonList: paginatedPokemon, // O grid vai continuar recebendo isso aqui normalmente
+    pokemonList: paginatedPokemon, // O grid recebe a lista já filtrada, ordenada e paginada
     loading,
     error,
     totalPages,

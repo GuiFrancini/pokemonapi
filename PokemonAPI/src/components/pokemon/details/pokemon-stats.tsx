@@ -22,7 +22,7 @@ export function PokemonStats({ stats }: { stats: any[] }) {
           <Progress 
             value={(s.base_stat / 255) * 100} 
             className="h-2 bg-slate-100" 
-            // Cor baseada no tipo de stat (ex: HP vermelho, Speed azul)
+            //um tipo de cor para cada status
           />
         </div>
       ))}

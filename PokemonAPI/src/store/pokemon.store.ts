@@ -1,10 +1,10 @@
 import  {create} from "zustand";
 
-interface PokemonState { //estado global do pokemon? 
+interface PokemonState { 
     search: string;
     page: number;
     limit: number;
-    sortOrder: "asc" | "desc"; //sortorder é um metodo? asc e desc são parametros ou nomes?
+    sortOrder: "asc" | "desc"; 
     isSearching: boolean;
     setSearch: (search: string) => void;
     setPage: (page: number) => void;

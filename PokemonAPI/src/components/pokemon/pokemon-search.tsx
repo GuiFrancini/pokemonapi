@@ -1,49 +1,3 @@
-// src/components/pokemon/pokemon-search.tsx
-/* import { useEffect, useState } from "react";
-import { usePokemonStore } from "@/store/pokemon.store";
-import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-
-export function PokemonSearch() {
-  const { setSearch, sortOrder, setSortOrder } = usePokemonStore();
-  const [localSearch, setLocalSearch] = useState("");
-
-  // Efeito de Debounce: Atualiza o estado global 300ms após o usuário parar de digitar
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      setSearch(localSearch);
-    }, 300);
-
-    return () => clearTimeout(handler);
-  }, [localSearch, setSearch]);
-
-  return (
-    <div className="flex flex-col sm:flex-row gap-4 p-4 bg-slate-50 rounded-t-lg border-b">
-      <div className="flex-1">
-        <Input
-          placeholder="Buscar por nome"
-          value={localSearch}
-          onChange={(e) => setLocalSearch(e.target.value)}
-          className="w-full bg-white"
-        />
-      </div>
-      
-      {/* Filtro de Ordem Alfabética do wireframe /}
-      <div className="w-full sm:w-[180px]">
-        <Select value={sortOrder} onValueChange={(val: "asc" | "desc") => setSortOrder(val)}>
-          <SelectTrigger className="bg-white">
-            <SelectValue placeholder="Ordenação" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="asc">Ordem A-Z</SelectItem>
-            <SelectItem value="desc">Ordem Z-A</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
-    </div>
-  );
-}*/
-
 import { useEffect, useState } from "react";
 import { usePokemonStore } from "@/store/pokemon.store";
 import { Input } from "@/components/ui/input";
@@ -64,12 +18,12 @@ export function PokemonSearch() {
 
 
   const handleInputChange = (value: string) => {
-    setLocalSearch(value); // 1. Muda o texto no input instantaneamente
-   //  setIsSearching(true);  // 2. Chama o Skeleton no EXATO momento que a tecla é pressionada
+    setLocalSearch(value); // 1. Muda o texto no input na hora
+   //  setIsSearching(true);  // 2. Chama o Skeleton na hota q a tecla é pressionada
   };
   
   return (
-    <div className="w-full max-w-5xl mx-auto px-4 pt-6 pb-2">
+    <div className="w-full px-4 sm:px-12 pt-6 pb-2">
       {/* Linha de Controles Unificada */}
       <div className="flex flex-col sm:flex-row gap-3 items-center justify-center">
         
@@ -96,7 +50,7 @@ export function PokemonSearch() {
           </Select>
         </div>
 
-        {/* Quantidade por Página (Trazido do rodapé para o topo conforme o layout) */}
+        {/* Quantidade por Página */}
         <div className="w-full sm:w-[150px]">
           <Select value={String(limit)} onValueChange={(val) => setLimit(Number(val))}>
             <SelectTrigger className="w-full h-10 bg-white border-slate-200 rounded-full shadow-sm focus:ring-rose-500">

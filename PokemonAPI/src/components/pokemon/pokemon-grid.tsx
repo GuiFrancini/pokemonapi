@@ -1,24 +1,4 @@
-/*import { PokemonCard } from "./pokemon-card";
-import { usePokemon } from "@/hooks/use-pokemon";
-
-
-
-export function PokemonGrid() {
-  const { pokemonList, loading, error } = usePokemon();
-
-if (loading) return <div className="text-center py-10">Carregando dados da API...</div>;
-  if (error) return <div className="text-center text-red-500 py-10">Erro: {error}</div>;
-
-  return (
-    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 p-4">
-      {pokemonList.map((pokemon) => (
-        <PokemonCard key={pokemon.name} name={pokemon.name} url={pokemon.url} />
-      ))}
-    </div>
-  );
-} */
-
-  // src/components/pokemon/pokemon-grid.tsx
+ // src/components/pokemon/pokemon-grid.tsx
 import { usePokemon } from "@/hooks/use-pokemon";
 import { usePokemonStore } from "@/store/pokemon.store";
 import { PokemonCard } from "./pokemon-card";
@@ -28,10 +8,10 @@ export function PokemonGrid() {
   const { pokemonList, loading, error } = usePokemon();
   const { limit, isSearching } = usePokemonStore();
 
-  // Exibe Skeletons correspondentes ao limite por página configurado
+  // Exibe Skeletons correspondentes ao número de itens por página enquanto carrega ou busca
   if (loading || isSearching) {
     return (
-      <div className="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-5 gap-5 p-5">
+      <div className="w-full grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 gap-6 px-4 sm:px-8 py-6">
         {Array.from({ length: limit }).map((_, index) => (
           <PokemonSkeleton key={index} />
         ))}
@@ -52,7 +32,7 @@ export function PokemonGrid() {
   
 
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 p-4 min-h-[400px]">
+    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 gap-5 px-4 sm:px-12 py-6 min-h-[450px]">
       {pokemonList.map((pokemon) => (
         <PokemonCard key={pokemon.name} name={pokemon.name} url={pokemon.url} />
       ))}
