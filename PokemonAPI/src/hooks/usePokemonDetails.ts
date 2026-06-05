@@ -1,11 +1,14 @@
 // src/hooks/usePokemonDetails.ts
 import { useState, useEffect, useRef } from "react";
-import { fetchPokemonDetails, fetchPokemonSpecies } from "../services/pokemon.api";
+import {
+  fetchPokemonDetails,
+  fetchPokemonSpecies,
+} from "../services/pokemon.api";
 
 interface PokemonDetails {
   id: number;
   name: string;
-  species: any; 
+  species: any;
   sprites: any;
   height: number;
   weight: number;
@@ -16,7 +19,7 @@ interface PokemonDetails {
 export const usePokemonDetails = (name: string | undefined) => {
   const [data, setData] = useState<PokemonDetails | null>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<Error | null>(null); 
+  const [error, setError] = useState<Error | null>(null);
   const abortControllerRef = useRef<AbortController>();
 
   useEffect(() => {
@@ -29,7 +32,7 @@ export const usePokemonDetails = (name: string | undefined) => {
     const loadData = async () => {
       setLoading(true);
       setError(null);
-      
+
       try {
         // Busca os detalhes primeiro
         const details = await fetchPokemonDetails(name);

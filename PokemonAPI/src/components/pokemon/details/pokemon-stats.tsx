@@ -19,9 +19,9 @@ export function PokemonStats({ stats }: { stats: any[] }) {
             <span>{statLabels[s.stat.name]}</span>
             <span>{s.base_stat}</span>
           </div>
-          <Progress 
-            value={(s.base_stat / 255) * 100} 
-            className="h-2 bg-slate-100" 
+          <Progress
+            value={(s.base_stat / 255) * 100}
+            className="h-2 bg-slate-100"
             //um tipo de cor para cada status
           />
         </div>

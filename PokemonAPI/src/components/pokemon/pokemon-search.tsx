@@ -1,10 +1,17 @@
 import { useEffect, useState } from "react";
 import { usePokemonStore } from "@/store/pokemon.store";
 import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export function PokemonSearch() {
-  const { setSearch, sortOrder, setSortOrder, limit, setLimit } = usePokemonStore();
+  const { setSearch, sortOrder, setSortOrder, limit, setLimit } =
+    usePokemonStore();
   const [localSearch, setLocalSearch] = useState("");
 
   useEffect(() => {
@@ -16,17 +23,15 @@ export function PokemonSearch() {
     return () => clearTimeout(handler);
   }, [localSearch, setSearch]); //setIsSearching
 
-
   const handleInputChange = (value: string) => {
     setLocalSearch(value); // 1. Muda o texto no input na hora
-   //  setIsSearching(true);  // 2. Chama o Skeleton na hota q a tecla é pressionada
+    //  setIsSearching(true);  // 2. Chama o Skeleton na hota q a tecla é pressionada
   };
-  
+
   return (
     <div className="w-full px-4 sm:px-12 pt-6 pb-2">
       {/* Linha de Controles Unificada */}
       <div className="flex flex-col sm:flex-row gap-3 items-center justify-center">
-        
         {/* Input de Busca */}
         <div className="w-full sm:w-[320px]">
           <Input
@@ -36,10 +41,13 @@ export function PokemonSearch() {
             className="w-full h-10 bg-white border-slate-200 rounded-full shadow-sm focus-visible:ring-rose-500"
           />
         </div>
-        
+
         {/* Filtro de Ordenação */}
         <div className="w-full sm:w-[160px]">
-          <Select value={sortOrder} onValueChange={(val: "asc" | "desc") => setSortOrder(val)}>
+          <Select
+            value={sortOrder}
+            onValueChange={(val: "asc" | "desc") => setSortOrder(val)}
+          >
             <SelectTrigger className="w-full h-10 bg-white border-slate-200 rounded-full shadow-sm focus:ring-rose-500">
               <SelectValue placeholder="Ordenação" />
             </SelectTrigger>
@@ -52,9 +60,14 @@ export function PokemonSearch() {
 
         {/* Quantidade por Página */}
         <div className="w-full sm:w-[150px]">
-          <Select value={String(limit)} onValueChange={(val) => setLimit(Number(val))}>
+          <Select
+            value={String(limit)}
+            onValueChange={(val) => setLimit(Number(val))}
+          >
             <SelectTrigger className="w-full h-10 bg-white border-slate-200 rounded-full shadow-sm focus:ring-rose-500">
-              <span className="text-sm text-muted-foreground mr-1">Exibir:</span>
+              <span className="text-sm text-muted-foreground mr-1">
+                Exibir:
+              </span>
               <SelectValue placeholder={String(limit)} />
             </SelectTrigger>
             <SelectContent>
@@ -66,7 +79,6 @@ export function PokemonSearch() {
             </SelectContent>
           </Select>
         </div>
-
       </div>
     </div>
   );

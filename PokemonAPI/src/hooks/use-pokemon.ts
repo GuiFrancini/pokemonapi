@@ -5,13 +5,12 @@ import { fetchAllPokemon } from "../services/pokemon.api";
 import { usePokemonStore } from "../store/pokemon.store";
 
 export const usePokemon = () => {
-  const { search, page, limit, sortOrder, } = usePokemonStore();//setIsSearching 
+  const { search, page, limit, sortOrder } = usePokemonStore(); //setIsSearching
 
   // estados locais para carregamento , poke e erro
   const [allPokemon, setAllPokemon] = useState<NamedAPIResource[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
 
   // buscar dados da api apenas uma vez quando o componente monta
   useEffect(() => {
@@ -21,14 +20,15 @@ export const usePokemon = () => {
         const data = await fetchAllPokemon();
         setAllPokemon(data);
       } catch (err: unknown) {
-        setError(err instanceof Error ? err.message : "Erro ao buscar dados na API"); //setError(err.message :
+        setError(
+          err instanceof Error ? err.message : "Erro ao buscar dados na API",
+        ); //setError(err.message :
       } finally {
         setLoading(false);
       }
     };
     loadData();
   }, []);
-  
 
   // filtro e ordenação usando o usememo pois ele deriva do estado original
   //  e não precisa ser recalculado a cada renderização
@@ -37,9 +37,8 @@ export const usePokemon = () => {
   const filteredPokemon = useMemo(() => {
     let result = [...allPokemon];
     if (search.trim() !== "") {
-
       result = result.filter((pokemon) =>
-        pokemon.name.toLowerCase().includes(search.toLowerCase())
+        pokemon.name.toLowerCase().includes(search.toLowerCase()),
       );
     }
 
@@ -48,12 +47,10 @@ export const usePokemon = () => {
       return b.name.localeCompare(a.name);
     });
 
-   // setIsSearching(false);
+    // setIsSearching(false);
 
     return result;
   }, [allPokemon, search, sortOrder]); // Só recalcula se um desses 3 mudar
-
-  
 
   // paginação calculada dinamicamente com useMemo
   const paginatedPokemon = useMemo(() => {
@@ -62,7 +59,7 @@ export const usePokemon = () => {
     return filteredPokemon.slice(startIndex, endIndex);
   }, [filteredPokemon, page, limit]); // Só recalcula se a lista filtrada ou a página mudar
 
-  // Total de paginas 
+  // Total de paginas
   const totalPages = Math.ceil(filteredPokemon.length / limit) || 1;
 
   return {
@@ -72,4 +69,3 @@ export const usePokemon = () => {
     totalPages,
   };
 };
-

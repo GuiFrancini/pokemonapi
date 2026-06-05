@@ -7,7 +7,7 @@ import { PokemonStats } from "@/components/pokemon/details/pokemon-stats";
 import { PokemonDetailsSkeleton } from "@/components/pokemon/pokemon-skeleton";
 
 export function PokemonDetailsPage() {
-  const { name } = useParams(); 
+  const { name } = useParams();
   const navigate = useNavigate();
   const { data, loading, error } = usePokemonDetails(name);
 
@@ -19,26 +19,29 @@ export function PokemonDetailsPage() {
       <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
         <div className="bg-white p-8 rounded-3xl text-center max-w-sm">
           <h2 className="text-2xl font-bold text-rose-500 mb-4">Ops!</h2>
-          <p className="text-slate-600 mb-6">Não conseguimos carregar os dados deste Pokémon.</p>
+          <p className="text-slate-600 mb-6">
+            Não conseguimos carregar os dados deste Pokémon.
+          </p>
           <Button onClick={() => navigate(-1)}>Voltar para a Pokédex</Button>
         </div>
       </div>
     );
   }
 
-
   // se a API não tiver a categoria em inglês, ele retorna undefined
-  const category = data.species?.genera?.find((g: any) => g.language.name === "en")?.genus || "Desconhecido";
-  
+  const category =
+    data.species?.genera?.find((g: any) => g.language.name === "en")?.genus ||
+    "Desconhecido";
+
   // imagem oficial se disponível, senão fallback para sprite clássico (muito comum em formas alternativas e megas)
-  const imageUrl = data.sprites?.other?.["official-artwork"]?.front_default || "";
+  const imageUrl =
+    data.sprites?.other?.["official-artwork"]?.front_default || "";
 
   return (
     <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
       <div className="bg-white w-full max-w-4xl h-[600px] rounded-3xl overflow-hidden shadow-2xl flex flex-col md:flex-row relative">
-        
-        <Button 
-          variant="ghost" 
+        <Button
+          variant="ghost"
           onClick={() => navigate(-1)}
           className="absolute top-4 left-4 z-10 rounded-full bg-white/80 hover:bg-white"
         >
@@ -47,8 +50,8 @@ export function PokemonDetailsPage() {
 
         <div className="w-full md:w-1/2 bg-slate-50 flex items-center justify-center p-12 border-r">
           {imageUrl && (
-            <img 
-              src={imageUrl} 
+            <img
+              src={imageUrl}
               alt={name}
               className="w-full h-auto drop-shadow-2xl"
             />
@@ -58,8 +61,12 @@ export function PokemonDetailsPage() {
         <ScrollArea className="w-full md:w-1/2 h-full p-8 bg-white">
           <div className="space-y-8">
             <div>
-              <h1 className="text-4xl font-black capitalize text-slate-900">{name?.replace(/-/g, " ")}</h1>
-              <p className="text-slate-400 font-medium">#{String(data.id).padStart(3, '0')}</p>
+              <h1 className="text-4xl font-black capitalize text-slate-900">
+                {name?.replace(/-/g, " ")}
+              </h1>
+              <p className="text-slate-400 font-medium">
+                #{String(data.id).padStart(3, "0")}
+              </p>
             </div>
 
             <div className="grid grid-cols-2 gap-6">
@@ -67,7 +74,13 @@ export function PokemonDetailsPage() {
               <InfoItem label="Category" value={category} />
               <InfoItem label="Weight" value={`${data.weight / 10}kg`} />
               {/*  mapeando as abilities */}
-              <InfoItem label="Abilities" value={data.abilities?.map((a:any) => a.ability.name).join(", ") || "N/A"} />
+              <InfoItem
+                label="Abilities"
+                value={
+                  data.abilities?.map((a: any) => a.ability.name).join(", ") ||
+                  "N/A"
+                }
+              />
             </div>
 
             {data.stats && <PokemonStats stats={data.stats} />}
@@ -78,10 +91,12 @@ export function PokemonDetailsPage() {
   );
 }
 
-function InfoItem({ label, value }: { label: string, value: string }) {
+function InfoItem({ label, value }: { label: string; value: string }) {
   return (
     <div>
-      <h4 className="text-sm font-bold text-slate-400 uppercase tracking-tighter">{label}</h4>
+      <h4 className="text-sm font-bold text-slate-400 uppercase tracking-tighter">
+        {label}
+      </h4>
       <p className="text-lg font-semibold text-slate-700 capitalize">{value}</p>
     </div>
   );
